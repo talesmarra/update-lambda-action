@@ -27,6 +27,7 @@ on:
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: install-aws-cli-action
         uses: unfor19/install-aws-cli-action@v1
