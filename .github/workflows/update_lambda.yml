@@ -39,14 +39,14 @@ jobs:
   - name: Build, tag, and push docker image to Amazon ECR
     env:
       REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      REPOSITORY: i${{ inputs.ecr-repository-name }}
-      IMAGE_TAG: latest
+      REPOSITORY: ${{ inputs.ecr-repository-name }}
+      IMAGE_TAG: ${{ inputs.image-tag }}
     run: |
       docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
       docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
   - name: deploy lambda that uses image
     env:
       REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      REPOSITORY: i${{ inputs.ecr-repository-name }}
-      IMAGE_TAG: latest
+      REPOSITORY: ${{ inputs.ecr-repository-name }}
+      IMAGE_TAG: ${{ inputs.image-tag }}
     run: aws lambda update-function-code --function-name ${{ inputs.lambda-function-name }} --image-uri $REGISTRY/$REPOSITORY:$IMAGE_TAG 
